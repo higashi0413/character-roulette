@@ -47,11 +47,26 @@
       border-color: rgba(255,255,255,.18);
     }
 
+    /* ★ 再抽選ボタンも抽選スタートと同色 */
+    .spinOne{
+      background:#1e66ff;
+      color:#fff;
+      border-color: rgba(255,255,255,.18);
+    }
+
     .hint { margin-left: auto; color: var(--muted); font-size: 12px; }
 
     .grid { display: grid; gap: 12px; }
     @media (min-width: 900px) {
       .grid { grid-template-columns: repeat(3, 1fr); }
+    }
+
+    /* 下段（ボス） */
+    .bossArea { margin-top: 6px; }
+    .bossAreaTitle{
+      font-size: 13px;
+      color: var(--muted);
+      margin: 6px 2px 0;
     }
 
     .wheel {
@@ -77,9 +92,6 @@
       display: grid;
       gap: 10px;
     }
-
-    /* 中央揃え */
-    .row-center{ justify-content: center; }
 
     /* 表示枠：400×400（正方形） */
     .frame {
@@ -108,8 +120,13 @@
       padding: 18px;
       line-height: 1.6;
     }
+    /* ★ ボス専用：600×315 比率 */
+    .boss-frame{
+      aspect-ratio: 600 / 315;
+      width: min(600px, 100%);
+    }
 
-    .row { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
+    .row { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; justify-content: center; }
 
     .thumbs {
       display: grid;
@@ -149,10 +166,12 @@
     }
     .thumb.disabled .tag { background: rgba(229,57,53,.55); }
 
-    /* 枠色 */
+    /* キャラ枠色 */
     .red   { border-color: #ff4d4d; }
     .blue  { border-color: #4da3ff; }
     .green { border-color: #45d483; }
+    /* ★ ボス枠色（白） */
+    .white { border-color: #ffffff; }
 
     .spinGlow {
       position: absolute;
@@ -172,11 +191,25 @@
       font-size: 12px;
     }
     code { color: #cfe3ff; }
+
+    /* ★ ボス枠のサムネ配置を最適化 */
+    .bossWheel .thumbs{
+      display: grid;
+      grid-template-columns: repeat(4, 1fr); /* 1行4枚 */
+      gap: 4px; /* 間隔を詰める（お好みで 2〜6px） */
+    }
+
+    /* ★ ボス用サムネを小さく（約2/3） */
+    .boss-thumbs .thumb{
+      transform: scale(0.67);
+      transform-origin: center;
+    }
+
   </style>
 </head>
 <body>
   <header>
-    <h1>ナイトレイン キャラルーレット</h1>
+    <h1>キャラ＆ボスルーレット</h1>
   </header>
 
   <div class="wrap">
@@ -186,6 +219,7 @@
       <span class="hint">今日の格言：チン・ポヤン大佐</span>
     </div>
 
+    <!-- キャラ3枠 -->
     <div class="grid">
       <section class="wheel" data-wheel="0">
         <div class="spinGlow"></div>
@@ -193,12 +227,8 @@
           <div class="badge"><span class="dot" style="background:#ff4d4d"></span>プレイヤー1</div>
         </div>
         <div class="stage">
-          <div class="frame red">
-            <div class="placeholder">ここに表示されるでヤンス</div>
-          </div>
-          <div class="row row-center">
-            <button class="spinOne">1だけ再抽選</button>
-          </div>
+          <div class="frame red"><div class="placeholder">ここに表示されるでヤンス</div></div>
+          <div class="row"><button class="spinOne">1だけ再抽選</button></div>
           <div class="thumbs"></div>
         </div>
         <div class="result">結果：<code class="resText">-</code></div>
@@ -210,12 +240,8 @@
           <div class="badge"><span class="dot" style="background:#4da3ff"></span>プレイヤー2</div>
         </div>
         <div class="stage">
-          <div class="frame blue">
-            <div class="placeholder">ここに表示されるでヤンス</div>
-          </div>
-          <div class="row row-center">
-            <button class="spinOne">2だけ再抽選</button>
-          </div>
+          <div class="frame blue"><div class="placeholder">ここに表示されるでヤンス</div></div>
+          <div class="row"><button class="spinOne">2だけ再抽選</button></div>
           <div class="thumbs"></div>
         </div>
         <div class="result">結果：<code class="resText">-</code></div>
@@ -227,13 +253,25 @@
           <div class="badge"><span class="dot" style="background:#45d483"></span>プレイヤー3</div>
         </div>
         <div class="stage">
-          <div class="frame green">
-            <div class="placeholder">ここに表示されるでヤンス</div>
-          </div>
-          <div class="row row-center">
-            <button class="spinOne">3だけ再抽選</button>
-          </div>
+          <div class="frame green"><div class="placeholder">ここに表示されるでヤンス</div></div>
+          <div class="row"><button class="spinOne">3だけ再抽選</button></div>
           <div class="thumbs"></div>
+        </div>
+        <div class="result">結果：<code class="resText">-</code></div>
+      </section>
+    </div>
+
+    <!-- ★ ボス枠（下段） -->
+    <div class="bossArea">
+      <section class="wheel bossWheel" data-wheel="boss">
+        <div class="spinGlow"></div>
+        <div class="top">
+          <div class="badge"><span class="dot" style="background:#ffffff"></span>ボス</div>
+        </div>
+        <div class="stage">
+          <div class="frame white boss-frame"><div class="placeholder">ここにボスが表示されるでヤンス</div></div>
+          <div class="row"><button class="spinOne">ボスだけ再抽選</button></div>
+          <div class="thumbs boss-thumbs"></div>
         </div>
         <div class="result">結果：<code class="resText">-</code></div>
       </section>
@@ -241,10 +279,18 @@
   </div>
 
   <script>
-    // ===== 最初から入れておく画像10枚（同じフォルダ内 images/ に置く想定）=====
+    // ===== キャラ画像10枚（images/01.png〜10.png）=====
     const PRESET_IMAGES = [
       "images/01.png","images/02.png","images/03.png","images/04.png","images/05.png",
       "images/06.png","images/07.png","images/08.png","images/09.png","images/10.png",
+    ];
+
+    // ===== ボス画像（images/boss01.png〜boss19.png）=====
+    const BOSS_IMAGES = [
+      "images/boss01.png","images/boss02.png","images/boss03.png","images/boss04.png","images/boss05.png","images/boss06.png",
+      "images/boss07.png","images/boss08.png","images/boss09.png","images/boss10.png","images/boss11.png","images/boss12.png",
+      "images/boss13.png","images/boss14.png","images/boss15.png","images/boss16.png","images/boss17.png","images/boss18.png",
+      "images/boss19.png"
     ];
 
     const sleep = (ms) => new Promise(r => setTimeout(r, ms));
@@ -394,16 +440,28 @@
       }
     };
 
-    const wheelEls = Array.from(document.querySelectorAll(".wheel"));
-    const wheels = wheelEls.map(el => new ImageWheel(el));
+    // ===== 初期化 =====
+    const charWheelEls = Array.from(document.querySelectorAll('.wheel[data-wheel="0"], .wheel[data-wheel="1"], .wheel[data-wheel="2"]'));
+    const bossWheelEl  = document.querySelector('.wheel[data-wheel="boss"]');
 
-    // 起動時プリセット：3枠とも同じ10枚（ON）
-    wheels.forEach(w => {
+    const charWheels = charWheelEls.map(el => new ImageWheel(el));
+    const bossWheel  = bossWheelEl ? new ImageWheel(bossWheelEl) : null;
+
+    // キャラ：3枠とも同じ10枚（ON）
+    charWheels.forEach(w => {
       w.images = PRESET_IMAGES.map(src => ({ src, enabled: true }));
       w.index = 0;
       w.setResultText("-");
       w.render();
     });
+
+    // ボス：boss01〜boss19（ON）
+    if (bossWheel) {
+      bossWheel.images = BOSS_IMAGES.map(src => ({ src, enabled: true }));
+      bossWheel.index = 0;
+      bossWheel.setResultText("-");
+      bossWheel.render();
+    }
 
     const spinAllBtn = document.getElementById("spinAllBtn");
     const stopAllBtn = document.getElementById("stopAllBtn");
@@ -411,15 +469,23 @@
     function setGlobalButtons(busy) {
       spinAllBtn.disabled = busy;
       stopAllBtn.disabled = !busy;
+
+      // 全ての「〜だけ再抽選」もbusy中は止める
       document.querySelectorAll(".spinOne").forEach(btn => btn.disabled = busy);
-      if (!busy) wheels.forEach(w => w.render());
+
+      if (!busy) {
+        charWheels.forEach(w => w.render());
+        if (bossWheel) bossWheel.render();
+      }
     }
 
-    spinAllBtn.addEventListener("click", () => spinManager.spin(wheels));
-    stopAllBtn.addEventListener("click", () => spinManager.stopAll(wheels));
+    // 抽選スタート：キャラ3枠 + ボス も同時に回す
+    const allWheels = bossWheel ? [...charWheels, bossWheel] : [...charWheels];
+
+    spinAllBtn.addEventListener("click", () => spinManager.spin(allWheels));
+    stopAllBtn.addEventListener("click", () => spinManager.stopAll(allWheels));
 
     setGlobalButtons(false);
   </script>
 </body>
 </html>
-
