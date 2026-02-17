@@ -216,7 +216,7 @@
     <div class="controls">
       <button id="spinAllBtn">抽選スタート</button>
       <button id="stopAllBtn" disabled>手動停止</button>
-      <span class="hint">今日の格言：ホン=マヤン代表取締役</span>
+      <span class="hint">ホンマニ=チン=ポヤン殺人総書記</span>
     </div>
 
     <!-- キャラ3枠 -->
@@ -449,18 +449,6 @@
 
     // キャラ：3枠とも同じ10枚（ON）
     charWheels.forEach(w => {
-      w.
-    };
-
-    // ===== 初期化 =====
-    const charWheelEls = Array.from(document.querySelectorAll('.wheel[data-wheel="0"], .wheel[data-wheel="1"], .wheel[data-wheel="2"]'));
-    const bossWheelEl  = document.querySelector('.wheel[data-wheel="boss"]');
-
-    const charWheels = charWheelEls.map(el => new ImageWheel(el));
-    const bossWheel  = bossWheelEl ? new ImageWheel(bossWheelEl) : null;
-
-    // キャラ：3枠とも同じ10枚（ON）
-    charWheels.forEach(w => {
       w.images = PRESET_IMAGES.map(src => ({ src, enabled: true }));
       w.index = 0;
       w.setResultText("-");
@@ -501,3 +489,10 @@
   </script>
 </body>
 </html>
+
+
+
+
+
+
+
